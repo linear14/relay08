@@ -109,8 +109,6 @@ class _SearchScreenState extends State<SearchScreen> {
                             onPressed: () {
                               setState(() {
                                 makeSearchedList();
-                                _filter.clear();
-                                _searchText = "";
                                 focusNode.unfocus();
                               });
                             },
