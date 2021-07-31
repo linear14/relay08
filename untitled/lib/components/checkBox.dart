@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MyCheckBox extends StatefulWidget {
+class MyCheckBox extends StatefulWidget { // checkBox 하나하나입니다.
   MyCheckBox({@required this.title});
   final String title;
   bool checked = false;

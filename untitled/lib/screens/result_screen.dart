@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:untitled/components/YoutubeItem.dart';
 import 'package:untitled/components/BookItem.dart';
 
-class SecondPage extends StatefulWidget {
-  SecondPage({this.checkedList});
+class ResultPage extends StatefulWidget {
+  ResultPage({this.checkedList});
   List<String> checkedList;
   final bookList = [
     Book(
@@ -22,10 +22,10 @@ class SecondPage extends StatefulWidget {
   final urlList = ['l18HCZqBs6I', "rqtTmj4LTTI", "VeIk8WSIQ2o", "Yc56NpYW1DM"];
 
   @override
-  _SecondPageState createState() => _SecondPageState();
+  _ResultPageState createState() => _ResultPageState();
 }
 
-class _SecondPageState extends State<SecondPage> {
+class _ResultPageState extends State<ResultPage> {
   int _value = 0;
 
   @override
@@ -34,7 +34,7 @@ class _SecondPageState extends State<SecondPage> {
       appBar: new AppBar(
         title: new Theme(
           child: new DropdownButtonHideUnderline(
-            child: DropdownButton(
+            child: DropdownButton( // dropdown 위젯
                 value: _value,
                 items: List.generate(widget.checkedList.length, (int index) {
                   return DropdownMenuItem(
@@ -52,30 +52,30 @@ class _SecondPageState extends State<SecondPage> {
         ),
       ),
       body: SafeArea(
-          child: ListView(
+          child: ListView( //결과 페이지
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: [
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TitleText("추천 도서"),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: widget.bookList.length,
-                  itemBuilder: (context, index) {
-                    final book = widget.bookList[index];
-                    return BookItem(book);
-                  }),
-              TitleText("추천 영상"),
-              GridView.count(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  crossAxisCount: 2,
-                  children: List.generate(4, (index) {
-                    return YoutubeItem(widget.urlList[index]);
-                  })),
-            ]),
-          ])),
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  TitleText("추천 도서"),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: widget.bookList.length,
+                      itemBuilder: (context, index) {
+                        final book = widget.bookList[index];
+                        return BookItem(book);
+                      }),
+                  TitleText("추천 영상"),
+                  GridView.count(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      crossAxisCount: 2,
+                      children: List.generate(4, (index) {
+                        return YoutubeItem(widget.urlList[index]);
+                      })),
+                ]),
+              ])),
     );
   }
 }

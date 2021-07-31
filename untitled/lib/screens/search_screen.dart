@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/components/checkBox.dart';
-import 'package:untitled/second_page.dart';
+import 'package:untitled/screens/result_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({this.myList});
@@ -17,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
   List<String> checkedList = [];
   List<Widget> searchedList = [];
 
-  int makeCheckedList() {
+  int makeCheckedList() { //체크된 리스트의 타이틀만 저장합니다.
     checkedList = [];
     for (int i = 0; i < widget.myList.length; i++) {
       if (widget.myList[i].checked) {
@@ -26,7 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  int makeSearchedList() {
+  int makeSearchedList() { //체크된 리스트의 위젯자체를 저장합니다.
     searchedList = [];
     for (int i = 0; i < widget.myList.length; i++) {
       if (widget.myList[i].title.toString().contains(_searchText)) {
@@ -55,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
                 child: Row(
                   children: [
-                    Expanded(
+                    Expanded( // 검색부인데 저도 오픈소스에서 코드보고 조금 수정해서 적용했습니다..
                         flex: 6,
                         child: TextField(
                             onSubmitted: (String str) {
@@ -119,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           )
                   ],
                 )),
-            searchedList.length == 0
+            searchedList.length == 0 // searchedList 확인해서 0이면 전체를, 아니면 있는것만 반환합니다.
                 ? ListView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
@@ -134,10 +133,10 @@ class _SearchScreenState extends State<SearchScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           makeCheckedList();
-          Navigator.push(
+          Navigator.push( // ResultPage 스크린을 띄웁니다.
             context,
             MaterialPageRoute(
-              builder: (context) => SecondPage(checkedList: checkedList),
+              builder: (context) => ResultPage(checkedList: checkedList),
             ),
           );
         },

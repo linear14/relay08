@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/components/checkBox.dart';
-import 'package:untitled/components/search_screen.dart';
+import 'package:untitled/screens/search_screen.dart';
 
 void main() {
   runApp(MyApp());
