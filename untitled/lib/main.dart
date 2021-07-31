@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/components/checkBox.dart';
+import 'package:untitled/components/search_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: CheckBoxList(myList: List.generate(licenseList.length, (int index) {
+        home: SearchScreen(myList: List.generate(licenseList.length, (int index) {
           return MyCheckBox(title: licenseList[index]);
         }))
     );

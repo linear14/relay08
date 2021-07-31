@@ -57,6 +57,7 @@ class _SecondPageState extends State<SecondPage> {
               shrinkWrap: true,
               children: [
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TitleText("추천 도서"),
               ListView.builder(
                   shrinkWrap: true,
                   physics: const ClampingScrollPhysics(),
@@ -65,6 +66,7 @@ class _SecondPageState extends State<SecondPage> {
                     final book = widget.bookList[index];
                     return BookItem(book);
                   }),
+              TitleText("추천 영상"),
               GridView.count(
                   shrinkWrap: true,
                   physics: const ClampingScrollPhysics(),
@@ -74,6 +76,25 @@ class _SecondPageState extends State<SecondPage> {
                   })),
             ]),
           ])),
+    );
+  }
+}
+
+class TitleText extends StatelessWidget {
+  final String str;
+  TitleText(this.str);
+
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Text(
+        str,
+        style: TextStyle(
+          fontFamily: "Cafe24SsurroundAir",
+          fontSize: 30,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
