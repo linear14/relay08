@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/components/YoutubeItem.dart';
 import 'package:untitled/components/BookItem.dart';
+import '../api/apiYoutubeUrl.dart';
 
 class ResultPage extends StatefulWidget {
   ResultPage({this.checkedList});
   List<String> checkedList;
-  final bookList = [
+  List bookList = [
     Book(
         "[국내도서] 시나공 정보처리기사 필기(2021) : 소프트웨어 설계, 소프트웨어 개발, 데이터베이스 구축 [전 2권]",
         29700,
@@ -19,7 +20,7 @@ class ResultPage extends StatefulWidget {
     Book("책 제목4", 4800, "저자2", "출판사2",
         'https://bookthumb-phinf.pstatic.net/cover/206/111/20611154.jpg?type=m1&udate=20210713')
   ];
-  final urlList = ['l18HCZqBs6I', "rqtTmj4LTTI", "VeIk8WSIQ2o", "Yc56NpYW1DM"];
+  // List urlList = ['l18HCZqBs6I', "rqtTmj4LTTI", "VeIk8WSIQo", "Yc56NpYW1DM"];
 
   @override
   _ResultPageState createState() => _ResultPageState();
@@ -27,6 +28,19 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   int _value = 0;
+  Future _futureYoutube;
+  List<String> _videoList = [];
+
+  // 수정 필요
+  // 1. api 호출 init 처리
+  // 2. 유튜브 플레이어 업데이트 이슈
+  //      1. 에러와 함께 썸네일이 빨간색 x자가 뜬다.
+  //      2. 순서 업데이트 문제
+  // 3. 자격증 목록 api실패 -> json으로 연동
+  // 4. 책 목록 api 연동 (node쓰시고 싶으면 바꾸셔도 괜찮아요~)
+  // 5. 자격기술서 api 연동
+  //
+  // 하면 끝! 프론트분들 잘짜주셔서 놀라면서 금방했어요. 감사하네요 ㅎㅎ
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +57,10 @@ class _ResultPageState extends State<ResultPage> {
                   );
                 }),
                 onChanged: (value) {
+                  final String checkedCertificate = widget.checkedList[value];
                   setState(() {
-                    _value = value;
+                    this._value = value;
+                    this._futureYoutube =  apiYoutubeUrl(checkedCertificate);
                   });
                 }),
           ),
@@ -67,13 +83,25 @@ class _ResultPageState extends State<ResultPage> {
                         return BookItem(book);
                       }),
                   TitleText("추천 영상"),
-                  GridView.count(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      crossAxisCount: 2,
-                      children: List.generate(4, (index) {
-                        return YoutubeItem(widget.urlList[index]);
-                      })),
+                  FutureBuilder<YoutubeData>(
+                    future: this._futureYoutube,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final videos = snapshot.data.videos;
+                        return GridView.count(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            crossAxisCount: 2,
+                            children: List.generate(videos.length, (index) {
+                              return YoutubeItem(videos[index].url);
+                            }));
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      // By default, show a loading spinner.
+                      return const CircularProgressIndicator();
+                    },
+                  ),
                 ]),
               ])),
     );
@@ -98,5 +126,3 @@ class TitleText extends StatelessWidget {
     );
   }
 }
-
-

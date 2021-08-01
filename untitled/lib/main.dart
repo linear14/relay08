@@ -7,12 +7,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  var licenseList = ["자격증1","자격증2","자격증3","자격증4","자격증5"];
+  var licenseList = ["가스기술사","건설기계기술사","건축구조기술사","공인노무사","산업보건지도사"];
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'relay7',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

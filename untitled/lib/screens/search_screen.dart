@@ -42,6 +42,26 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  _dialogEmpty() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("검색할 자격증을 선택해주세요."),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,12 +153,16 @@ class _SearchScreenState extends State<SearchScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           makeCheckedList();
-          Navigator.push( // ResultPage 스크린을 띄웁니다.
-            context,
-            MaterialPageRoute(
-              builder: (context) => ResultPage(checkedList: checkedList),
-            ),
-          );
+          if(checkedList.length>0){
+            Navigator.push( // ResultPage 스크린을 띄웁니다.
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResultPage(checkedList: checkedList),
+              ),
+            );
+          }else{
+            _dialogEmpty();
+          }
         },
         tooltip: 'Go',
         child: Icon(Icons.navigate_next),
