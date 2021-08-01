@@ -27,9 +27,8 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  int _value = 0;
+  int _value;
   Future _futureYoutube;
-  List<String> _videoList = [];
 
   // 수정 필요
   // 1. api 호출 init 처리
@@ -41,6 +40,15 @@ class _ResultPageState extends State<ResultPage> {
   // 5. 자격기술서 api 연동
   //
   // 하면 끝! 프론트분들 잘짜주셔서 놀라면서 금방했어요. 감사하네요 ㅎㅎ
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this._value = 0;
+    final String checkedCertificate = widget.checkedList[this._value];
+    this._futureYoutube =  apiYoutubeUrl(checkedCertificate);
+  }
 
   @override
   Widget build(BuildContext context) {
