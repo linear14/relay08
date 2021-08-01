@@ -31,6 +31,7 @@ class _ResultPageState extends State<ResultPage> {
   Future _futureYoutube;
 
   // 수정 필요
+
   // 1. api 호출 init 처리
   // 2. 유튜브 플레이어 업데이트 이슈
   //      1. 에러와 함께 썸네일이 빨간색 x자가 뜬다.
