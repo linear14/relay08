@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/api/apiWorkbookDetail.dart';
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 final dio = new Dio();
 
-void downloadFile(String uri) async {
+void downloadFile(String uri, String fileName) async {
   try {
-    await dio.get(
-        uri,
+    final dir = await getApplicationDocumentsDirectory();
+    print("${dir.path}/$fileName");
+    await dio.download(
+      uri,
+      "${dir.path}/$fileName",
         onReceiveProgress: showDownloadProgress
     );
   } catch(e) {
@@ -40,7 +44,7 @@ class WorkbookDetailList extends StatelessWidget {
         final item = questionDetails[index];
         return GestureDetector(
           onTap: () {
-            downloadFile(item.fileUrl);
+            downloadFile(item.fileUrl, item.fileNm);
           },
           child: Container(
               decoration: BoxDecoration(
@@ -82,3 +86,24 @@ class WorkbookDetailList extends StatelessWidget {
     );
   }
 }
+
+// class DownloadWidget extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() {
+//     return new DownloadState();
+//   }
+//
+// }
+//
+// class DownloadState extends State<DownloadWidget> {
+//
+//   bool downloading = false;
+//   var progressString = "";
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     throw UnimplementedError();
+//   }
+//
+// }
