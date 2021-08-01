@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class Book {
   final String title;
-  final int price;
+  final String price;
   final String author;
   final String publisher;
   final String image;
@@ -59,7 +59,7 @@ class BookItem extends StatelessWidget {
                   Text(book.publisher, style: TextStyle(color: Colors.black54)),
                   const Padding(padding: EdgeInsets.only(top: 8)),
                   Row(children: <Widget>[
-                    Text('${makeComma(book.price)}',
+                    Text('${makeComma(int.parse(book.price))}',
                         style: TextStyle(
                             color: Colors.lightGreen[700],
                             fontWeight: FontWeight.bold,

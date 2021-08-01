@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
+import 'package:untitled/api/apiBook.dart';
 import 'package:untitled/api/apiWorkbook.dart';
 import 'package:untitled/components/WorkbookList.dart';
 import 'package:untitled/components/YoutubeItem.dart';
@@ -13,15 +15,15 @@ class ResultPage extends StatefulWidget {
   List bookList = [
     Book(
         "[국내도서] 시나공 정보처리기사 필기(2021) : 소프트웨어 설계, 소프트웨어 개발, 데이터베이스 구축 [전 2권]",
-        29700,
+        "29700",
         "길벗R&D, 강윤석, 김용갑",
         "길벗",
         'https://bookthumb-phinf.pstatic.net/cover/189/873/18987351.jpg?type=m1&udate=20210616'),
-    Book("책 제목2", 4800, "저자2", "출판사2",
+    Book("책 제목2", "4800", "저자2", "출판사2",
         'https://bookthumb-phinf.pstatic.net/cover/206/111/20611154.jpg?type=m1&udate=20210713'),
-    Book("책 제목3", 4800, "저자2", "출판사2",
+    Book("책 제목3", "4800", "저자2", "출판사2",
         'https://bookthumb-phinf.pstatic.net/cover/206/111/20611154.jpg?type=m1&udate=20210713'),
-    Book("책 제목4", 4800, "저자2", "출판사2",
+    Book("책 제목4", "4800", "저자2", "출판사2",
         'https://bookthumb-phinf.pstatic.net/cover/206/111/20611154.jpg?type=m1&udate=20210713')
   ];
   // List urlList = ['l18HCZqBs6I', "rqtTmj4LTTI", "VeIk8WSIQo", "Yc56NpYW1DM"];
@@ -33,6 +35,7 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   int _value;
   Future _futureYoutube;
+  Future _futureNaver;
 
   // 수정 필요
 
@@ -53,6 +56,7 @@ class _ResultPageState extends State<ResultPage> {
     this._value = 0;
     final String checkedCertificate = widget.checkedList[this._value];
     this._futureYoutube =  apiYoutubeUrl(checkedCertificate);
+    this._futureNaver = requestNaverBookUrl(checkedCertificate);
   }
 
   @override
@@ -74,6 +78,7 @@ class _ResultPageState extends State<ResultPage> {
                   setState(() {
                     this._value = value;
                     this._futureYoutube =  apiYoutubeUrl(checkedCertificate);
+                    this._futureNaver = requestNaverBookUrl(checkedCertificate);
                   });
                 }),
           ),
@@ -87,14 +92,35 @@ class _ResultPageState extends State<ResultPage> {
               children: [
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                   TitleText("추천 도서"),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: widget.bookList.length,
-                      itemBuilder: (context, index) {
-                        final book = widget.bookList[index];
-                        return BookItem(book);
-                      }),
+                  FutureBuilder<NaverBook>(
+                    future: this._futureNaver,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final _books = snapshot.data.items;
+                        List<BookData> books = _books.map((e) => BookData.fromJson(e)).toList();
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: 4, // widget.bookList.length
+                          itemBuilder: (context, index) {
+                            final book = books[index];
+                            return BookItem(Book(
+                              parse(book.title).documentElement.text,
+                              book.price,
+                              book.author,
+                              book.publisher,
+                              book.image,
+                            ));
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('${snapshot.error}'),
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  ),
                   TitleText("추천 영상"),
                   FutureBuilder<YoutubeData>(
                     future: this._futureYoutube,
