@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class YoutubeItem extends StatefulWidget {
+class YoutubeItem extends StatelessWidget {
   final String url;
   YoutubeItem(this.url);
-
-  @override
-  _YoutubeItemState createState() => _YoutubeItemState();
-}
-
-class _YoutubeItemState extends State<YoutubeItem> {
-
-  @override
-  void initState() {
-    print(widget.url);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +11,7 @@ class _YoutubeItemState extends State<YoutubeItem> {
         padding: const EdgeInsets.all(10.0),
         child: YoutubePlayer(
           controller: YoutubePlayerController(
-              initialVideoId: widget.url,
+              initialVideoId: url,
               flags: YoutubePlayerFlags(
                 mute: false,
                 autoPlay: false,
@@ -30,6 +19,3 @@ class _YoutubeItemState extends State<YoutubeItem> {
         ));
   }
 }
-
-
-
