@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/api/apiWorkbook.dart';
+import 'package:untitled/components/WorkbookList.dart';
 import 'package:untitled/components/YoutubeItem.dart';
 import 'package:untitled/components/BookItem.dart';
+import 'package:untitled/data/SearchKeyword.dart';
 import '../api/apiYoutubeUrl.dart';
+import 'package:http/http.dart' as http;
 
 class ResultPage extends StatefulWidget {
   ResultPage({this.checkedList});
@@ -105,10 +109,31 @@ class _ResultPageState extends State<ResultPage> {
                               return YoutubeItem(videos[index].url);
                             }));
                       } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
+                        return Center(
+                          child: Text('${snapshot.error}')
+                        );
                       }
                       // By default, show a loading spinner.
                       return const CircularProgressIndicator();
+                    },
+                  ),
+                  TitleText("문제 추천"),
+                  FutureBuilder<List<Workbook>>(
+                    future: fetchQuestions(http.Client(), keywordMap[widget.checkedList[this._value]]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(snapshot.error.toString()),
+                        );
+                      } else if (snapshot.hasData) {
+                        return Center(
+                          child: WorkbookList(workbooks: snapshot.data)
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
                     },
                   ),
                 ]),
