@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:test_api/api/key.dart' as Key;
+import '../config/key.dart' as Key;
 
 // 예시 : /v1/search/book.xml?query=%EC%A3%BC%EC%8B%9D&display=10&start=1
 // Future<NaverBookData>
