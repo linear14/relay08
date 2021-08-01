@@ -65,90 +65,91 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: SingleChildScrollView(child:SafeArea(
         child: Container(
             child: Column(
-          children: [
-            Container(
-                color: Colors.blue,
-                padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                child: Row(
-                  children: [
-                    Expanded( // 검색부인데 저도 오픈소스에서 코드보고 조금 수정해서 적용했습니다..
-                        flex: 6,
-                        child: TextField(
-                            onSubmitted: (String str) {
-                              setState(() {
-                                makeSearchedList();
-                              });
-                            },
-                            focusNode: focusNode,
-                            style: TextStyle(fontSize: 15),
-                            autofocus: true,
-                            controller: _filter,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white12,
-                              suffixIcon: focusNode.hasFocus
-                                  ? IconButton(
-                                      icon: Icon(Icons.cancel, size: 20),
-                                      onPressed: () {
-                                        setState(() {
-                                          _filter.clear();
-                                          _searchText = "";
-                                        });
-                                      },
-                                    )
-                                  : Container(),
-                              hintText: "검색",
-                              labelStyle: TextStyle(color: Colors.white),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
+              children: [
+                Container(
+                    color: Colors.blue,
+                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    child: Row(
+                      children: [
+                        Expanded( // 검색부인데 저도 오픈소스에서 코드보고 조금 수정해서 적용했습니다..
+                            flex: 6,
+                            child: TextField(
+                                onSubmitted: (String str) {
+                                  setState(() {
+                                    makeSearchedList();
+                                  });
+                                },
+                                focusNode: focusNode,
+                                style: TextStyle(fontSize: 15),
+                                autofocus: true,
+                                controller: _filter,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white12,
+                                  suffixIcon: focusNode.hasFocus
+                                      ? IconButton(
+                                    icon: Icon(Icons.cancel, size: 20),
+                                    onPressed: () {
+                                      setState(() {
+                                        _filter.clear();
+                                        _searchText = "";
+                                      });
+                                    },
+                                  )
+                                      : Container(),
+                                  hintText: "검색",
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
                                     BorderSide(color: Colors.transparent),
-                                borderRadius:
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
                                     BorderSide(color: Colors.transparent),
-                                borderRadius:
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide:
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide:
                                     BorderSide(color: Colors.transparent),
-                                borderRadius:
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
-                              ),
-                            ))),
-                    focusNode.hasFocus
-                        ? Expanded(
+                                  ),
+                                ))),
+                        focusNode.hasFocus
+                            ? Expanded(
                             child: FlatButton(
-                            child: Icon(Icons.search, color: Colors.white),
-                            onPressed: () {
-                              setState(() {
-                                makeSearchedList();
-                                focusNode.unfocus();
-                              });
-                            },
-                          ))
-                        : Expanded(
-                            child: Container(),
-                            flex: 0,
-                          )
-                  ],
-                )),
-            searchedList.length == 0 // searchedList 확인해서 0이면 전체를, 아니면 있는것만 반환합니다.
-                ? ListView(
+                              child: Icon(Icons.search, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  makeSearchedList();
+                                  focusNode.unfocus();
+                                });
+                              },
+                            ))
+                            : Expanded(
+                          child: Container(),
+                          flex: 0,
+                        )
+                      ],
+                    )),
+                searchedList.length == 0 // searchedList 확인해서 0이면 전체를, 아니면 있는것만 반환합니다.
+                    ? ListView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     children: widget.myList)
-                : ListView(
+                    : ListView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     children: searchedList)
-          ],
-        )),
+              ],
+            )),
+      ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
