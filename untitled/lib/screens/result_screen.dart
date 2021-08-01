@@ -56,7 +56,8 @@ class _ResultPageState extends State<ResultPage> {
       appBar: new AppBar(
         title: new Theme(
           child: new DropdownButtonHideUnderline(
-            child: DropdownButton( // dropdown 위젯
+            child: DropdownButton(
+                // dropdown 위젯
                 value: _value,
                 items: List.generate(widget.checkedList.length, (int index) {
                   return DropdownMenuItem(
@@ -76,7 +77,8 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
       body: SafeArea(
-          child: ListView( //결과 페이지
+          child: ListView(
+              //결과 페이지
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: [
