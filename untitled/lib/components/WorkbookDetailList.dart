@@ -86,24 +86,3 @@ class WorkbookDetailList extends StatelessWidget {
     );
   }
 }
-
-// class DownloadWidget extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     return new DownloadState();
-//   }
-//
-// }
-//
-// class DownloadState extends State<DownloadWidget> {
-//
-//   bool downloading = false;
-//   var progressString = "";
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     throw UnimplementedError();
-//   }
-//
-// }
